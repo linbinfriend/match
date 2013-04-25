@@ -15,7 +15,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main2);
 	}
 
 	@Override
@@ -33,10 +33,14 @@ public class MainActivity extends Activity {
 		// Button button1View= (Button) findViewById(R.id.fullscreen_content_1);
 		if (iflags == 1) {
 			((Button) view).setText("石头");
+			((Button) view).setBackgroundResource(R.drawable.quantou);
+			
 		} else if (iflags == 2) {
 			((Button) view).setText("剪刀");
+			((Button) view).setBackgroundResource(R.drawable.jiandao);
 		} else {
 			((Button) view).setText("布");
+			((Button) view).setBackgroundResource(R.drawable.shouxing);
 		}
 
 		//view.setBackgroundColor(Color.RED);
@@ -52,10 +56,13 @@ public class MainActivity extends Activity {
 
 		if (iflags == 1) {
 			((Button) view).setText("石头");
+			((Button) view).setBackgroundResource(R.drawable.quantou);
 		} else if (iflags == 2) {
 			((Button) view).setText("剪刀");
+			((Button) view).setBackgroundResource(R.drawable.jiandao);
 		} else {
 			((Button) view).setText("布");
+			((Button) view).setBackgroundResource(R.drawable.shouxing);
 		}
 
 		//view.setBackgroundColor(Color.RED);
