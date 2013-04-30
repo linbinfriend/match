@@ -23,7 +23,7 @@
             android:layout_height="220dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="10"
-            android:background="@drawable/background"
+            android:background="@drawable/background2"
             android:onClick="onClick_fullscreen_button1" />
 
         <Button
@@ -38,7 +38,7 @@
             android:layout_height="220dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="10"
-            android:background="@drawable/background"
+            android:background="@drawable/background1"
             android:onClick="onClick_fullscreen_button2" />
 
     </LinearLayout>

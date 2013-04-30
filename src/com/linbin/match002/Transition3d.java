@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,19 @@ public class Transition3d extends Activity {
 	private ImageView mImageView1;
 	private ImageView mImageView2;
 	private Button mLine;
+	private static boolean isfirstenterchange = true;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		isfirstenterchange = true;
+	}
 
 	/*
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -27,27 +41,28 @@ public class Transition3d extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		//requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		// requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_main3);
-		//getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.title);
-		
+		// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.title);
 
 		mImageView1 = (ImageView) findViewById(R.id.ImageView1);
 		mImageView2 = (ImageView) findViewById(R.id.ImageView2);
 		mContainer = (ViewGroup) findViewById(R.id.container);
 		mLine = (Button) findViewById(R.id.line1);
-		
-		final float centerX = mContainer.getWidth() ;
-		final float centerY = mContainer.getHeight() ;
-		
-		//Log.v("linbin", String.valueOf(centerX));
-		//Log.v("linbin", String.valueOf(centerY));
-		//mImageView1.setLayoutParams(new ViewGroup.LayoutParams((int)centerX*2/5,(int)centerY*2/5));
-		
-		//mImageView2.setLayoutParams(new ViewGroup.LayoutParams((int)centerX*2/5,(int)centerY*2/5));
-		
-		//mLine.setLayoutParams(new ViewGroup.LayoutParams((int)centerX*1/5,(int)centerY*1/5));
-		
+
+		final float centerX = mContainer.getWidth();
+		final float centerY = mContainer.getHeight();
+
+		// Log.v("linbin", String.valueOf(centerX));
+		// Log.v("linbin", String.valueOf(centerY));
+		// mImageView1.setLayoutParams(new
+		// ViewGroup.LayoutParams((int)centerX*2/5,(int)centerY*2/5));
+
+		// mImageView2.setLayoutParams(new
+		// ViewGroup.LayoutParams((int)centerX*2/5,(int)centerY*2/5));
+
+		// mLine.setLayoutParams(new
+		// ViewGroup.LayoutParams((int)centerX*1/5,(int)centerY*1/5));
 
 		mImageView1.setClickable(true);
 		mImageView1.setFocusable(true);
@@ -60,7 +75,9 @@ public class Transition3d extends Activity {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onStart()
 	 */
 	@Override
@@ -79,10 +96,11 @@ public class Transition3d extends Activity {
 
 		// Create a new 3D rotation with the supplied parameter
 		// The animation listener is used to trigger the next animation
+
 		final Rotate3dAnimation rotation = new Rotate3dAnimation(start, end,
 				centerX, centerY, 310.0f, true);
 
-		rotation.setDuration(500);
+		rotation.setDuration(1000);
 		rotation.setFillAfter(true);
 		rotation.setInterpolator(new AccelerateInterpolator());
 		// 设置监听
@@ -178,11 +196,11 @@ public class Transition3d extends Activity {
 				mImageView2.setVisibility(View.VISIBLE);
 				mImageView2.requestFocus();
 
-				rotation = new Rotate3dAnimation(90, 180, centerX, centerY,
+				rotation = new Rotate3dAnimation(90, 0, centerX, centerY,
 						310.0f, false);
 			}
 
-			rotation.setDuration(500);
+			rotation.setDuration(1000);
 			rotation.setFillAfter(true);
 			rotation.setInterpolator(new DecelerateInterpolator());
 			// 开始动画
@@ -197,19 +215,62 @@ public class Transition3d extends Activity {
 
 	public void onClick_fullscreen_button1(View view) {
 
+		
 		int iflags = (int) (Math.random() * 3);
+		
+		final float centerX = mImageView1.getWidth() / 2.0f;
+		final float centerY = mImageView1.getHeight() / 2.0f;
 
-		if (iflags == 1) {
-			// ((ImageView) view).setBackgroundResource(R.drawable.quantou);
-			applyRotation(1, 180, 90);
-		} else if (iflags == 2) {
-			// ((Button) view).setText("剪刀");
-			// ((ImageView) view).setBackgroundResource(R.drawable.jiandao);
-			applyRotation(1, 180, 90);
+		// Create a new 3D rotation with the supplied parameter
+		// The animation listener is used to trigger the next animation
+
+		final Rotate3dAnimation rotation = new Rotate3dAnimation(0, 90,
+				centerX, centerY, 310.0f, true);
+		
+
+		if (isfirstenterchange) {
+			rotation.setDuration(1000);
+			rotation.setFillAfter(true);
+			rotation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationEnd(Animation arg0) {
+					mImageView1.setBackgroundResource(0);
+					applyRotation(1, 90, 90);
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onAnimationStart(Animation animation) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+			rotation.setInterpolator(new AccelerateInterpolator());
+			mImageView1.startAnimation(rotation);
+			
+			isfirstenterchange=false;
+			
 		} else {
-			// ((Button) view).setText("布");
-			// ((ImageView) view).setBackgroundResource(R.drawable.shouxing);
-			applyRotation(1, 180, 90);
+
+			
+			if (iflags == 1) {
+				// ((ImageView) view).setBackgroundResource(R.drawable.quantou);
+				applyRotation(1, 180, 90);
+			} else if (iflags == 2) {
+				// ((Button) view).setText("剪刀");
+				// ((ImageView) view).setBackgroundResource(R.drawable.jiandao);
+				applyRotation(1, 180, 90);
+			} else {
+				// ((Button) view).setText("布");
+				// ((ImageView)
+				// view).setBackgroundResource(R.drawable.shouxing);
+				applyRotation(1, 180, 90);
+			}
 		}
 
 	}
@@ -220,15 +281,15 @@ public class Transition3d extends Activity {
 
 		if (iflags == 1) {
 			// ((ImageView) view).setBackgroundResource(R.drawable.quantou);
-			applyRotation(-1, 180, 90);
+			applyRotation(-1, 0, 90);
 		} else if (iflags == 2) {
 			// ((Button) view).setText("剪刀");
 			// ((ImageView) view).setBackgroundResource(R.drawable.jiandao);
-			applyRotation(-1, 180, 90);
+			applyRotation(-1, 0, 90);
 		} else {
 			// ((Button) view).setText("布");
 			// ((ImageView) view).setBackgroundResource(R.drawable.shouxing);
-			applyRotation(-1, 180, 90);
+			applyRotation(-1, 0, 90);
 		}
 	}
 }
